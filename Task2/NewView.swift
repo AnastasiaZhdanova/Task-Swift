@@ -8,20 +8,20 @@
 
 import UIKit
 
-class NewView: UIView {
+class NewView: UIView{
     
- //var currentView = UIView()
+    //let  tapGestureRecognizer = UITapGestureRecognizer
+    var currentView = UIView()
+    //var currentView : UIView = []
     
     func createNewView(count: Double, mainView: UIView){
         var i = count
         
         var indent = 0
-        var currentView = mainView
+        currentView = mainView
         
         let width = 100
         let height = 150
-        
-        
         while i > 0 {
             var newView = UIView(frame: CGRect(x: indent, y: indent, width: width, height: height))
             
@@ -33,12 +33,15 @@ class NewView: UIView {
             indent = 10
             i = i - 1
         }
-        
-        
     }
     
+    func deleteView(coordinate: CGPoint){
+        let xyDeleteView = coordinate
+        
+        currentView.removeFromSuperview()
+    }
 }
-
+    
 //MARK: - Random Colour
 extension CGFloat {
     static var random: CGFloat {

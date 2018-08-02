@@ -8,24 +8,34 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     var newView = NewView()
+    var tap: UITapGestureRecognizer?
     
     @IBOutlet weak var textField: UITextField!
-    
     @IBOutlet weak var mainView: UIView!
     
+    @IBAction func tapScreen(_ sender: Any) {
+    //newView.deleteView()
+        showMoreActions(touch: tap!)
+        print("tapped")
+    }
+
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        tap = UITapGestureRecognizer(target: self, action: "showMoreActions:")
+        tap?.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tap!)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func showMoreActions(touch: UITapGestureRecognizer) {
+        
+        let touchPoint = touch.location(in: self.view)
+        print(touchPoint)
+        newView.deleteView(coordinate: touchPoint)
+        
     }
-
+    
     @IBAction func tapGenerateButton(_ sender: Any) {
         view.endEditing(true)
             var amountOfView = Double(textField.text!)
