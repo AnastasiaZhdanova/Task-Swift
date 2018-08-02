@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-
+    var newView = NewView()
+    
     @IBOutlet weak var textField: UITextField!
     
     @IBOutlet weak var mainView: UIView!
@@ -32,7 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()
             }
-            createNewView(count: amountOfView!)
+        newView.createNewView(count: amountOfView!, mainView: mainView)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -43,7 +44,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
        view.endEditing(true)
         
     }
-    
+}
+   /*
     func createNewView(count: Double){
         var i = count
         var stepHeight =  0.0
@@ -78,6 +80,6 @@ extension UIColor {
     static var random: UIColor {
         return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
     }
-}
+}*/
 
 
