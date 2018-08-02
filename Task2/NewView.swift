@@ -10,30 +10,31 @@ import UIKit
 
 class NewView: UIView {
     
-  //  var currentView = UIView()
+ //var currentView = UIView()
     
     func createNewView(count: Double, mainView: UIView){
         var i = count
-        var stepHeight =  0.0
-        var stepWidth = 0.0
-        let indent = 10.0
         
-        var width = Double(mainView.frame.size.width)/count
-        var height = Double(mainView.frame.size.height)/count
+        var indent = 0
+        var currentView = mainView
+        
+        let width = 100
+        let height = 150
+        
+        
         while i > 0 {
-            var newView = UIView(frame: CGRect(x: stepWidth, y: stepHeight, width: width, height: height))
+            var newView = UIView(frame: CGRect(x: indent, y: indent, width: width, height: height))
             
             newView.backgroundColor = .random
-            mainView.addSubview(newView)
-          //  currentView.addSubview(newView)
+           
+            currentView.addSubview(newView)
             
-          //  currentView = newView
-            
-            stepHeight = stepHeight + indent
-            stepWidth = stepWidth + indent
-            
+            currentView = newView
+            indent = 10
             i = i - 1
         }
+        
+        
     }
     
 }
