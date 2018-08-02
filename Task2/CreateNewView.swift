@@ -8,7 +8,7 @@
 
 /*import Foundation
 
-class CreateNewView: UIView  {
+class CreateNewView: UIView {
     
      func createNewView(count: Double){
          var i = count
@@ -45,5 +45,5 @@ class CreateNewView: UIView  {
  static var random: UIColor {
  return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
  }
- }
-*/
+ }*/
+

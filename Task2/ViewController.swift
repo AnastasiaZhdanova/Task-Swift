@@ -17,7 +17,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,9 +24,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    @objc func textFieldDidChange(_ textField: UITextField) {
+       //Check TextField
+
+    }
     @IBAction func tapGenerateButton(_ sender: Any) {
         view.endEditing(true)
-            var amountOfView = Double(textField.text!)
+        guard let text = textField.text else {
+            return
+        }
+            var amountOfView = Double(text)
             //Clear screen
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()
