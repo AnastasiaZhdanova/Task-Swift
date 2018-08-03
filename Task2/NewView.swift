@@ -25,21 +25,48 @@ class NewView: UIView, UIGestureRecognizerDelegate{
     
     func createNewView(count: Double, mainView: UIView){
         var i = count
-        
+       // let w = mainView.frame.size.width
+      //  let h = mainView.frame.size.width
         var indent = 0
         currentView = mainView
         NewView.defView = mainView
         let width = 100
         let height = 150
-        while i > 0 {
+        
+        /*if Int(w/10) < Int(i) {
+            i = Double(w/10)
+        }
+        else if Int(h/15) < Int(i)
+        {
+            i = Double(h/15)
+        }*/
+        
+        
+        
+    /*   while i > 0 {
             var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
-            
             newView.backgroundColor = .random
-           
             currentView.addSubview(newView)
-            
             currentView = newView
             indent = 10
+            i = i - 1
+        } */
+
+        while i > 0 {
+            //var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
+            var newView =  NewView()
+            newView.backgroundColor = .random
+            currentView.addSubview(newView)
+            
+
+          //newView.leadingAnchor.constraint(equalTo: currentView.leadingAnchor, constant: 10).isActive = true
+            newView.translatesAutoresizingMaskIntoConstraints = false
+            newView.topAnchor.constraint(equalTo: currentView.topAnchor, constant: CGFloat(indent)).isActive = true
+            newView.leftAnchor.constraint(equalTo: currentView.leftAnchor, constant: CGFloat(indent)).isActive = true
+            newView.widthAnchor.constraint(equalToConstant: CGFloat(width)).isActive = true
+            newView.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+           indent = 10
+            currentView = newView
             i = i - 1
         }
     }
@@ -65,6 +92,24 @@ class NewView: UIView, UIGestureRecognizerDelegate{
         let tempView = self.superview
         if superview == NewView.defView {
             for subview in self.subviews{
+                subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
+                subview.leftAnchor.constraint(equalTo: (NewView.defView.leftAnchor), constant: 0).isActive = true
+                NewView.defView.addSubview(subview)
+            }
+        } else {
+            for subview in self.subviews{
+                subview.topAnchor.constraint(equalTo: (superview?.topAnchor)!, constant: 10).isActive = true
+                subview.leftAnchor.constraint(equalTo: (superview?.leftAnchor)!, constant: 10).isActive = true
+                tempView?.addSubview(subview)
+            }
+        }
+        self.removeFromSuperview()
+    }
+    
+    /*@objc func handleTap(sender: UIGestureRecognizer) {
+        let tempView = self.superview
+        if superview == NewView.defView {
+            for subview in self.subviews{
                 subview.frame.origin.x = 0
                 subview.frame.origin.y = 0
                 NewView.defView.addSubview(subview)
@@ -75,7 +120,7 @@ class NewView: UIView, UIGestureRecognizerDelegate{
             }
         }
         self.removeFromSuperview()
-    }
+    }*/
 }
 //MARK: - Random Colour
 extension CGFloat {
@@ -88,5 +133,4 @@ extension UIColor {
     static var random: UIColor {
         return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
     }
-    
 }
