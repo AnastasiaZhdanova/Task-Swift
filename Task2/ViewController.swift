@@ -11,30 +11,31 @@ import UIKit
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     var newView = NewView()
-    var tap: UITapGestureRecognizer?
+  //  var tap: UITapGestureRecognizer?
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var mainView: UIView!
     
-    @IBAction func tapScreen(_ sender: Any) {
-    //newView.deleteView()
-        showMoreActions(touch: tap!)
+    
+   /* @IBAction func tapScreen(_ sender: Any) {
+        newView.deleteView(touch: tap!)
+      //  showMoreActions(touch: tap!)
         print("tapped")
-    }
+    }*/
 
     override func viewDidLoad() {
-        tap = UITapGestureRecognizer(target: self, action: "showMoreActions:")
-        tap?.numberOfTapsRequired = 1
-        view.addGestureRecognizer(tap!)
+     //   tap = UITapGestureRecognizer(target: self, action: "showMoreActions:")
+     //   tap?.numberOfTapsRequired = 1
+      //  view.addGestureRecognizer(tap!)
     }
     
-    func showMoreActions(touch: UITapGestureRecognizer) {
+  /*  func showMoreActions(touch: UITapGestureRecognizer) {
         
         let touchPoint = touch.location(in: self.view)
         print(touchPoint)
         newView.deleteView(coordinate: touchPoint)
         
-    }
+    }*/
     
     @IBAction func tapGenerateButton(_ sender: Any) {
         view.endEditing(true)
