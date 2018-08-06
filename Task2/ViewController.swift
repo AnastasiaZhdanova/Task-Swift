@@ -11,40 +11,25 @@ import UIKit
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     var newView = NewView()
-  //  var tap: UITapGestureRecognizer?
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var mainView: UIView!
-    
-    
-   /* @IBAction func tapScreen(_ sender: Any) {
-        newView.deleteView(touch: tap!)
-      //  showMoreActions(touch: tap!)
-        print("tapped")
-    }*/
 
-    override func viewDidLoad() {
-     //   tap = UITapGestureRecognizer(target: self, action: "showMoreActions:")
-     //   tap?.numberOfTapsRequired = 1
-      //  view.addGestureRecognizer(tap!)
-    }
-    
-  /*  func showMoreActions(touch: UITapGestureRecognizer) {
-        
-        let touchPoint = touch.location(in: self.view)
-        print(touchPoint)
-        newView.deleteView(coordinate: touchPoint)
-        
-    }*/
-    
     @IBAction func tapGenerateButton(_ sender: Any) {
-        view.endEditing(true)
-            var amountOfView = Double(textField.text!)
+        if (isСonform(to: textField.text!)) == true {
             //Clear screen
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()
             }
-        newView.createNewView(count: amountOfView!, mainView: mainView)
+             view.endEditing(true)
+            newView.createNewView(count: Double(textField.text!)!, mainView: mainView)
+        } else
+        {
+            let alertController = UIAlertController(title: "Warning", message:
+                "There must be only numbers!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -54,6 +39,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
        view.endEditing(true)
         
+    }
+    
+    public func isСonform(to value: String) -> Bool {
+        let regExptest = NSPredicate(format: "SELF MATCHES %@", ".*[0-9]+.*")
+        return regExptest.evaluate(with: value)
     }
 }
 

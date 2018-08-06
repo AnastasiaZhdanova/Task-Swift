@@ -12,11 +12,15 @@ class NewView: UIView, UIGestureRecognizerDelegate{
     
     var currentView = UIView()
     static var defView = UIView()
+    static var topView = UIView()
     
     override init(frame: CGRect){
        super.init(frame: frame)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         self.addGestureRecognizer(tap)
+        let move = UIPanGestureRecognizer(target: self, action: #selector(self.hadleMove))
+        self.addGestureRecognizer(move)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -58,8 +62,6 @@ class NewView: UIView, UIGestureRecognizerDelegate{
             newView.backgroundColor = .random
             currentView.addSubview(newView)
             
-
-          //newView.leadingAnchor.constraint(equalTo: currentView.leadingAnchor, constant: 10).isActive = true
             newView.translatesAutoresizingMaskIntoConstraints = false
             newView.topAnchor.constraint(equalTo: currentView.topAnchor, constant: CGFloat(indent)).isActive = true
             newView.leftAnchor.constraint(equalTo: currentView.leftAnchor, constant: CGFloat(indent)).isActive = true
@@ -69,6 +71,7 @@ class NewView: UIView, UIGestureRecognizerDelegate{
             currentView = newView
             i = i - 1
         }
+        NewView.topView = currentView
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -89,7 +92,7 @@ class NewView: UIView, UIGestureRecognizerDelegate{
     }
     
     @objc func handleTap(sender: UIGestureRecognizer) {
-        let tempView = self.superview
+let tempView = self.superview
         if superview == NewView.defView {
             for subview in self.subviews{
                 subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
@@ -103,6 +106,12 @@ class NewView: UIView, UIGestureRecognizerDelegate{
                 tempView?.addSubview(subview)
             }
         }
+       /* let rotationTransform = CATransform3DRotate(self.layer.transform, CGFloat.pi, 3, 0, 0)
+        
+        UIView.animate(withDuration: 0.5) {
+            self.layer.transform = rotationTransform
+        }*/
+        //self.rotate360Degrees()
         self.removeFromSuperview()
     }
     
@@ -121,6 +130,23 @@ class NewView: UIView, UIGestureRecognizerDelegate{
         }
         self.removeFromSuperview()
     }*/
+    
+    @objc func hadleMove(recognizer: UIPanGestureRecognizer){
+            //self.transform = CGAffineTransform(rotationAngle: 180)
+        for subview in self.subviews{
+            self.superview?.addSubview(subview)
+            subview.topAnchor.constraint(equalTo: (superview?.topAnchor)!, constant: 10).isActive = true
+            subview.leftAnchor.constraint(equalTo: (superview?.leftAnchor)!, constant: 10).isActive = true
+        }
+        let translation = recognizer.translation(in: self)
+        if let view = recognizer.view {
+            view.center = CGPoint(x:view.center.x + translation.x,
+                                  y:view.center.y + translation.y)
+        }
+        recognizer.setTranslation(CGPoint.zero, in: self)
+      //  NewView.topView.addSubview(self)
+    }
+    
 }
 //MARK: - Random Colour
 extension CGFloat {
@@ -132,5 +158,20 @@ extension CGFloat {
 extension UIColor {
     static var random: UIColor {
         return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
+    }
+}
+
+extension UIView {
+    func rotate360Degrees(duration: CFTimeInterval = 1.0, completionDelegate: AnyObject? = nil) {
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = CGFloat(M_PI)
+        rotateAnimation.duration = duration
+        rotateAnimation.repeatCount = .infinity
+        
+        if let delegate: CAAnimationDelegate = completionDelegate as! CAAnimationDelegate? {
+            rotateAnimation.delegate = delegate
+        }
+        self.layer.add(rotateAnimation, forKey: nil)
     }
 }
