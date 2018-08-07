@@ -29,23 +29,11 @@ class NewView: UIView, UIGestureRecognizerDelegate{
     
     func createNewView(count: Double, mainView: UIView){
         var i = count
-       // let w = mainView.frame.size.width
-      //  let h = mainView.frame.size.width
         var indent = 0
         currentView = mainView
         NewView.defView = mainView
         let width = 100
         let height = 150
-        
-        /*if Int(w/10) < Int(i) {
-            i = Double(w/10)
-        }
-        else if Int(h/15) < Int(i)
-        {
-            i = Double(h/15)
-        }*/
-        
-        
         
     /*   while i > 0 {
             var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
@@ -92,7 +80,7 @@ class NewView: UIView, UIGestureRecognizerDelegate{
     }
     
     @objc func handleTap(sender: UIGestureRecognizer) {
-let tempView = self.superview
+        let tempView = self.superview
         if superview == NewView.defView {
             for subview in self.subviews{
                 subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
@@ -133,11 +121,24 @@ let tempView = self.superview
     
     @objc func hadleMove(recognizer: UIPanGestureRecognizer){
             //self.transform = CGAffineTransform(rotationAngle: 180)
-        for subview in self.subviews{
-            self.superview?.addSubview(subview)
-            subview.topAnchor.constraint(equalTo: (superview?.topAnchor)!, constant: 10).isActive = true
-            subview.leftAnchor.constraint(equalTo: (superview?.leftAnchor)!, constant: 10).isActive = true
+        let tempView = self.superview
+        if superview == NewView.defView {
+            for subview in self.subviews{
+                subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
+                subview.leftAnchor.constraint(equalTo: (NewView.defView.leftAnchor), constant: 0).isActive = true
+                NewView.defView.addSubview(subview)
+            }
+        } else {
+        var indent = 10
+            for subview in self.subviews{
+                self.superview?.addSubview(subview)
+                subview.topAnchor.constraint(equalTo: (self.superview?.topAnchor)!, constant: CGFloat(indent)).isActive = true
+                subview.leftAnchor.constraint(equalTo: (self.superview?.leftAnchor)!, constant: CGFloat(indent)).isActive = true
+                indent = indent + 10
+            }
         }
+        self.superview?.bringSubview(toFront: self)
+        
         let translation = recognizer.translation(in: self)
         if let view = recognizer.view {
             view.center = CGPoint(x:view.center.x + translation.x,
