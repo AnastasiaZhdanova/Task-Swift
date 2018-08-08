@@ -8,19 +8,31 @@
 
 import UIKit
 
-class NewView: UIView, UIGestureRecognizerDelegate{
+class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     
+  //  @IBOutlet weak var VC : ViewController!
+  //  var VC: ViewController! = ViewController()
+//    var VC = ViewController()
+   
     var currentView = UIView()
     static var defView = UIView()
     static var topView = UIView()
+    var customView: UIView = defView
+    var rotateDegree = false
     
     override init(frame: CGRect){
        super.init(frame: frame)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         self.addGestureRecognizer(tap)
-        let move = UIPanGestureRecognizer(target: self, action: #selector(self.hadleMove))
+        let move = UIPanGestureRecognizer(target: self, action: #selector(self.handleMove))
         self.addGestureRecognizer(move)
-        
+        let rotate = UIRotationGestureRecognizer(target: self, action: #selector(self.handleRotate))
+        self.addGestureRecognizer(rotate)
+        let scale = UIPinchGestureRecognizer(target: self, action: #selector(self.handleScale))
+        self.addGestureRecognizer(scale)
+ //       VC.delegate = self
+
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -119,9 +131,11 @@ class NewView: UIView, UIGestureRecognizerDelegate{
         self.removeFromSuperview()
     }*/
     
-    @objc func hadleMove(recognizer: UIPanGestureRecognizer){
+    @objc func handleMove(recognizer: UIPanGestureRecognizer){
             //self.transform = CGAffineTransform(rotationAngle: 180)
+        
         let tempView = self.superview
+        let movedView = self
         if superview == NewView.defView {
             for subview in self.subviews{
                 subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
@@ -137,18 +151,57 @@ class NewView: UIView, UIGestureRecognizerDelegate{
                 indent = indent + 10
             }
         }
-        self.superview?.bringSubview(toFront: self)
-        
-        let translation = recognizer.translation(in: self)
-        if let view = recognizer.view {
-            view.center = CGPoint(x:view.center.x + translation.x,
-                                  y:view.center.y + translation.y)
+//        for subview in NewView.defView.subviews{
+//            if movedView == subview{
+//                movedView.removeFromSuperview()
+//                NewView.defView.addSubview(movedView)
+//                movedView.center = NewView.defView.center
+//            }
+//        }
+        if rotateDegree == false  {
+            self.superview?.bringSubview(toFront: self)
+            let translation = recognizer.translation(in: self)
+            if let view = recognizer.view {
+                view.center = CGPoint(x:view.center.x + translation.x,
+                                      y:view.center.y + translation.y)
+            }
+            recognizer.setTranslation(CGPoint.zero, in: self)
+          //  NewView.topView.addSubview(self)
+        } else {
+            self.superview?.bringSubview(toFront: self)
+            let translation = recognizer.translation(in: self)
+            if let view = recognizer.view {
+                view.center = CGPoint(x:view.center.x + translation.x - translation.y/8,
+                                      y:view.center.y + translation.y - translation.x/8)
+            }
+            recognizer.setTranslation(CGPoint.zero, in: self)
         }
-        recognizer.setTranslation(CGPoint.zero, in: self)
-      //  NewView.topView.addSubview(self)
     }
     
+    @objc func handleRotate(recognizer: UIRotationGestureRecognizer){
+        guard recognizer.view != nil else { return }
+        
+        if recognizer.state == .began || recognizer.state == .changed {
+            recognizer.view?.transform = recognizer.view!.transform.rotated(by: recognizer.rotation)
+            recognizer.rotation = 0
+        }
+        rotateDegree = true
+    }
+    
+    @objc func handleScale(recognizer sender: UIPinchGestureRecognizer){
+        if sender.state == .began || sender.state == .changed {
+            sender.view?.transform = (sender.view?.transform.scaledBy(x: sender.scale, y: sender.scale))!
+            sender.scale = 1.0
+        }
+    }
+    
+    
+    func accessToText(count: Double)-> Double {
+        return count
+    }
 }
+
+
 //MARK: - Random Colour
 extension CGFloat {
     static var random: CGFloat {
