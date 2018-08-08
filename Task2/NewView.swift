@@ -12,7 +12,7 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     
   //  @IBOutlet weak var VC : ViewController!
   //  var VC: ViewController! = ViewController()
-    var VC : ViewController!
+ //   var VC : ViewController!
 
    
     var currentView = UIView()
@@ -32,7 +32,7 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
         let scale = UIPinchGestureRecognizer(target: self, action: #selector(self.handleScale))
         self.addGestureRecognizer(scale)
 
-       VC.delegate = self
+    //   VC.delegate = self
 
 
     }
@@ -62,6 +62,10 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
             //var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
             var newView =  NewView()
             newView.backgroundColor = .random
+            newView.layer.cornerRadius = 6
+            newView.layer.shadowOffset = CGSize(width: 2, height: 2)
+            newView.layer.shadowRadius = 5
+            newView.layer.shadowOpacity = 0.25
             currentView.addSubview(newView)
             
             newView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,13 +112,13 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
                 tempView?.addSubview(subview)
             }
         }
-       /* let rotationTransform = CATransform3DRotate(self.layer.transform, CGFloat.pi, 3, 0, 0)
-        
-        UIView.animate(withDuration: 0.5) {
-            self.layer.transform = rotationTransform
-        }*/
+//        let rotationTransform = CATransform3DRotate(self.layer.transform, CGFloat.pi, 3, 0, 0)
+//
+//        UIView.animate(withDuration: 0.5) {
+//            self.layer.transform = rotationTransform
+//        }
         //self.rotate360Degrees()
-        self.removeFromSuperview()
+        //self.removeFromSuperview()
     }
     
     /*@objc func handleTap(sender: UIGestureRecognizer) {

@@ -34,15 +34,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
             }
              view.endEditing(true)
             
-//           newView.createNewView(count: Double(textField.text!)!, mainView:mainView)
+           newView.createNewView(count: Double(textField.text!)!, mainView:mainView)
 
-            let text = textField.text
-
-            if let doubleCount = Double(text!) {
-                let count = delegate?.accessToText(count: doubleCount)
-
-                newView.createNewView(count: count!, mainView: mainView)
-            }
+//            let text = textField.text
+//
+//            if let doubleCount = Double(text!) {
+//                let count = delegate?.accessToText(count: doubleCount)
+//
+//                newView.createNewView(count: count!, mainView: mainView)
+//            }
             
         } else
         {
