@@ -15,7 +15,7 @@ protocol ViewControllerDelegate{
 
 
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
-
+    
   var newView = NewView()
     
     @IBOutlet weak private var textField: UITextField!
@@ -23,11 +23,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     
     var delegate: ViewControllerDelegate?
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    }
+    
     @IBAction func tapGenerateButton(_ sender: Any) {
-        if (isСonform(to: textField.text!)) == true {
+        
+        if (textField.text?.characters.count)! <= 2{
+        
+        if (isСonform(to: textField.text!)) == true /*||  (textField.text?.characters.count)! <= 2 */{
             //Clear screen
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()
@@ -47,7 +48,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         } else
         {
             let alertController = UIAlertController(title: "Warning", message:
-                "There must be only numbers!", preferredStyle: UIAlertControllerStyle.alert)
+                "There must be only integer numbers!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            let alertController = UIAlertController(title: "Warning", message:
+                "MAX Value is 99", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
@@ -64,11 +71,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     public func isСonform(to value: String) -> Bool {
-        let regExptest = NSPredicate(format: "SELF MATCHES %@", ".*[0-9]+.*")
+        let regExptest = NSPredicate(format: "SELF MATCHES %@", "[0-9]*")
         return regExptest.evaluate(with: value)
     }
     
 }
-
-
-
