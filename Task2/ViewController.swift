@@ -22,12 +22,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     @IBOutlet weak private var mainView: UIView!
     
     var delegate: ViewControllerDelegate?
-    //var variable: Double =
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -39,16 +33,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
                 subview.removeFromSuperview()
             }
              view.endEditing(true)
-            newView.createNewView(count: Double(textField.text!)!, mainView:mainView)
-//
-//            let text = textField.text
-//
-//            if let doubleCount = Double(text!) {
-//                let count = delegate?.accessToText(count: doubleCount)
-//
-//                newView.createNewView(count: count!, mainView: mainView)
-//            }
+            
+//           newView.createNewView(count: Double(textField.text!)!, mainView:mainView)
 
+            let text = textField.text
+
+            if let doubleCount = Double(text!) {
+                let count = delegate?.accessToText(count: doubleCount)
+
+                newView.createNewView(count: count!, mainView: mainView)
+            }
             
         } else
         {

@@ -12,7 +12,8 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     
   //  @IBOutlet weak var VC : ViewController!
   //  var VC: ViewController! = ViewController()
-//    var VC = ViewController()
+    var VC : ViewController!
+
    
     var currentView = UIView()
     static var defView = UIView()
@@ -30,7 +31,8 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
         self.addGestureRecognizer(rotate)
         let scale = UIPinchGestureRecognizer(target: self, action: #selector(self.handleScale))
         self.addGestureRecognizer(scale)
- //       VC.delegate = self
+
+       VC.delegate = self
 
 
     }
@@ -171,8 +173,8 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
             self.superview?.bringSubview(toFront: self)
             let translation = recognizer.translation(in: self)
             if let view = recognizer.view {
-                view.center = CGPoint(x:view.center.x + translation.x - translation.y/8,
-                                      y:view.center.y + translation.y - translation.x/8)
+                view.center = CGPoint(x:view.center.x + translation.x - translation.y/10,
+                                      y:view.center.y + translation.y - translation.x/10)
             }
             recognizer.setTranslation(CGPoint.zero, in: self)
         }
