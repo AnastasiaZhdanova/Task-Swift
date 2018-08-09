@@ -13,6 +13,7 @@
 		3F1A7B2A2112E50F00CDD947 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F1A7B282112E50F00CDD947 /* Main.storyboard */; };
 		3F1A7B2C2112E51000CDD947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F1A7B2B2112E51000CDD947 /* Assets.xcassets */; };
 		3F1A7B2F2112E51000CDD947 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F1A7B2D2112E51000CDD947 /* LaunchScreen.storyboard */; };
+		3F667449211C4511003E7EC4 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F667448211C4511003E7EC4 /* SaveData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		3F1A7B2B2112E51000CDD947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F1A7B2E2112E51000CDD947 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F1A7B302112E51000CDD947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F667448211C4511003E7EC4 /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				3F1A7B242112E50F00CDD947 /* AppDelegate.swift */,
 				3F1A7B262112E50F00CDD947 /* ViewController.swift */,
 				3F08397C2113305800DBCB95 /* NewView.swift */,
+				3F667448211C4511003E7EC4 /* SaveData.swift */,
 				3F1A7B282112E50F00CDD947 /* Main.storyboard */,
 				3F1A7B2B2112E51000CDD947 /* Assets.xcassets */,
 				3F1A7B2D2112E51000CDD947 /* LaunchScreen.storyboard */,
@@ -140,6 +143,7 @@
 			files = (
 				3F08397D2113305800DBCB95 /* NewView.swift in Sources */,
 				3F1A7B272112E50F00CDD947 /* ViewController.swift in Sources */,
+				3F667449211C4511003E7EC4 /* SaveData.swift in Sources */,
 				3F1A7B252112E50F00CDD947 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

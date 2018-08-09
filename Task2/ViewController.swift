@@ -16,13 +16,30 @@ protocol ViewControllerDelegate{
 
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
-  var newView = NewView()
+    var newView = NewView()
+    
+    var loadingData = [AppsViews]()
+    
+    struct AppsViews: Codable {
+        let width: CGFloat
+        let height: CGFloat
+        let x: CGFloat
+        let y: CGFloat
+        let color: [CGFloat]
+    }
     
     @IBOutlet weak private var textField: UITextField!
     @IBOutlet weak private var mainView: UIView!
+
+     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.plist")
+ //   let dataPath = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.plist")
     
     var delegate: ViewControllerDelegate?
 
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     
     @IBAction func tapGenerateButton(_ sender: Any) {
         
@@ -58,6 +75,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
+        saveApp()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -75,4 +93,24 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         return regExptest.evaluate(with: value)
     }
     
+    func saveApp(){
+     for subview in NewView.defView.subviews{
+        
+      let color = subview.backgroundColor?.cgColor
+        let viewColor = color?.components
+        print(viewColor)
+        
+        let saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+        
+        let encoder =  PropertyListEncoder()
+        do{
+            let data =  try encoder.encode(loadingData)
+            try data.write(to: dataFilePath!)
+            print(data)
+        } catch{
+            print("Error encoding data \(error)")
+        }
+      }
+    }
 }
+

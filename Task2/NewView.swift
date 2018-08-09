@@ -102,6 +102,7 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     }
     
     @objc func handleTap(sender: UIGestureRecognizer) {
+
         let tempView = self.superview
         if superview == NewView.defView {
             for subview in self.subviews{
@@ -116,13 +117,14 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
                 tempView?.addSubview(subview)
             }
         }
+                self.removeFromSuperview()
+        
 //        let rotationTransform = CATransform3DRotate(self.layer.transform, CGFloat.pi, 3, 0, 0)
 //
 //        UIView.animate(withDuration: 0.5) {
 //            self.layer.transform = rotationTransform
 //        }
         //self.rotate360Degrees()
-        //self.removeFromSuperview()
     }
     
     /*@objc func handleTap(sender: UIGestureRecognizer) {
@@ -144,7 +146,6 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     @objc func handleMove(recognizer: UIPanGestureRecognizer){
             //self.transform = CGAffineTransform(rotationAngle: 180)
         
-        let movedView = self
             for subview in self.subviews{
                 subview.removeFromSuperview()
                 NewView.defView.addSubview(subview)
@@ -153,21 +154,31 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
             self.superview?.bringSubview(toFront: self)
             let translation = recognizer.translation(in: self)
             if let view = recognizer.view {
-                view.center = CGPoint(x:view.center.x + translation.x,
-                                      y:view.center.y + translation.y)
+                if translation.y < NewView.topView.frame.origin.y {
+                    view.center = CGPoint(x:view.center.x + translation.x,
+                                          y:view.center.y + translation.y)
+                } else {
+                    view.center = CGPoint(x:view.center.x + translation.x,
+                                          y:view.center.y + translation.y - NewView.topView.frame.origin.y)
+                }
             }
             recognizer.setTranslation(CGPoint.zero, in: self)
-          //  NewView.topView.addSubview(self)
         } else {
             self.superview?.bringSubview(toFront: self)
             let translation = recognizer.translation(in: self)
             if let view = recognizer.view {
-                view.center = CGPoint(x:view.center.x + translation.x - translation.y/10,
-                                      y:view.center.y + translation.y - translation.x/10)
+                if translation.y < NewView.topView.frame.origin.y {
+                    view.center = CGPoint(x:view.center.x + translation.x - translation.y/10,
+                                          y:view.center.y + translation.y - translation.x/10)
+                }else {
+                        view.center = CGPoint(x:view.center.x + translation.x - translation.y/10,
+                                              y:view.center.y + translation.y - (translation.x/10 + NewView.topView.frame.origin.y))
+                }
             }
             recognizer.setTranslation(CGPoint.zero, in: self)
         }
     }
+    
     
     @objc func handleRotate(recognizer: UIRotationGestureRecognizer){
         guard recognizer.view != nil else { return }
