@@ -13,9 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    var vc = ViewController()
+    
+    
     func applicationWillTerminate(_ application: UIApplication) {
-     //           ViewController.saveApp()
+              vc.saveApp()
     }
 
 

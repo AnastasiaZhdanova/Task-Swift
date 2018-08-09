@@ -39,6 +39,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     
     override func viewDidLoad() {
         super.viewDidLoad()
+               loadApp()
     }
     
     @IBAction func tapGenerateButton(_ sender: Any) {
@@ -94,6 +95,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     func saveApp(){
+        
      for subview in NewView.defView.subviews{
         
       let color = subview.backgroundColor?.cgColor
@@ -112,5 +114,21 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         }
       }
     }
-}
+    
+    func loadApp(){
+//        if let data = try? Data(contentsOf: dataFilePath!){
+//            let decoder = PropertyListDecoder()
+//            do{
+//                loadingData = try decoder.decode([AppsViews].self, from: data)
+//            } catch {
+//            print("Error decoding data \(error)")
+//            }
+//       var viewProperty = AppsViews.self
+//            newView.currentView.frame.width = viewProperty.width
+//          }
+
+            
+        }
+    }
+
 
