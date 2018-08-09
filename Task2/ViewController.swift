@@ -28,7 +28,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         if (textField.text?.characters.count)! <= 2{
         
-        if (isСonform(to: textField.text!)) == true /*||  (textField.text?.characters.count)! <= 2 */{
+        if (isСonform(to: textField.text!)) == true {
             //Clear screen
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()

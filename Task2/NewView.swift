@@ -49,34 +49,38 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
         let width = 100
         let height = 150
         
-    /*   while i > 0 {
+       while i > 0 {
             var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
-            newView.backgroundColor = .random
-            currentView.addSubview(newView)
-            currentView = newView
-            indent = 10
-            i = i - 1
-        } */
-
-        while i > 0 {
-            //var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
-            var newView =  NewView()
             newView.backgroundColor = .random
             newView.layer.cornerRadius = 6
             newView.layer.shadowOffset = CGSize(width: 2, height: 2)
             newView.layer.shadowRadius = 5
             newView.layer.shadowOpacity = 0.25
             currentView.addSubview(newView)
-            
-            newView.translatesAutoresizingMaskIntoConstraints = false
-            newView.topAnchor.constraint(equalTo: currentView.topAnchor, constant: CGFloat(indent)).isActive = true
-            newView.leftAnchor.constraint(equalTo: currentView.leftAnchor, constant: CGFloat(indent)).isActive = true
-            newView.widthAnchor.constraint(equalToConstant: CGFloat(width)).isActive = true
-            newView.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
-           indent = 10
             currentView = newView
+            indent = 10
             i = i - 1
         }
+
+//        while i > 0 {
+//            //var newView =  NewView(frame: CGRect(x: indent, y: indent, width: width, height: height))
+//            var newView =  NewView()
+//            newView.backgroundColor = .random
+//            newView.layer.cornerRadius = 6
+//            newView.layer.shadowOffset = CGSize(width: 2, height: 2)
+//            newView.layer.shadowRadius = 5
+//            newView.layer.shadowOpacity = 0.25
+//            currentView.addSubview(newView)
+//
+//            newView.translatesAutoresizingMaskIntoConstraints = false
+//            newView.topAnchor.constraint(equalTo: currentView.topAnchor, constant: CGFloat(indent)).isActive = true
+//            newView.leftAnchor.constraint(equalTo: currentView.leftAnchor, constant: CGFloat(indent)).isActive = true
+//            newView.widthAnchor.constraint(equalToConstant: CGFloat(width)).isActive = true
+//            newView.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+//           indent = 10
+//            currentView = newView
+//            i = i - 1
+//        }
         NewView.topView = currentView
     }
     
@@ -140,30 +144,11 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
     @objc func handleMove(recognizer: UIPanGestureRecognizer){
             //self.transform = CGAffineTransform(rotationAngle: 180)
         
-        let tempView = self.superview
         let movedView = self
-        if superview == NewView.defView {
             for subview in self.subviews{
-                subview.topAnchor.constraint(equalTo: (NewView.defView.topAnchor), constant: 0).isActive = true
-                subview.leftAnchor.constraint(equalTo: (NewView.defView.leftAnchor), constant: 0).isActive = true
+                subview.removeFromSuperview()
                 NewView.defView.addSubview(subview)
             }
-        } else {
-        var indent = 10
-            for subview in self.subviews{
-                self.superview?.addSubview(subview)
-                subview.topAnchor.constraint(equalTo: (self.superview?.topAnchor)!, constant: CGFloat(indent)).isActive = true
-                subview.leftAnchor.constraint(equalTo: (self.superview?.leftAnchor)!, constant: CGFloat(indent)).isActive = true
-                indent = indent + 10
-            }
-        }
-//        for subview in NewView.defView.subviews{
-//            if movedView == subview{
-//                movedView.removeFromSuperview()
-//                NewView.defView.addSubview(movedView)
-//                movedView.center = NewView.defView.center
-//            }
-//        }
         if rotateDegree == false  {
             self.superview?.bringSubview(toFront: self)
             let translation = recognizer.translation(in: self)
