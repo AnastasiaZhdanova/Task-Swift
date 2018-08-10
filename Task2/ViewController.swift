@@ -8,41 +8,80 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+protocol ViewControllerDelegate{
+    func accessToText(count: Double) -> Double
+//    func accesToView()
+}
 
 
-    @IBOutlet weak var textField: UITextField!
+class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
-    @IBOutlet weak var mainView: UIView!
+    var newView = NewView()
+    
+    var loadingData = [AppsViews]()
+    
+    struct AppsViews: Codable {
+        let width: CGFloat
+        let height: CGFloat
+        let x: CGFloat
+        let y: CGFloat
+        let color: [CGFloat]
+
+    }
+    
+    @IBOutlet weak private var textField: UITextField!
+    @IBOutlet weak private var mainView: UIView!
+
+     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.json")
+
+    
+    var delegate: ViewControllerDelegate?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @objc func textFieldDidChange(_ textField: UITextField) {
-       //Check TextField
-
-    }
+    
     @IBAction func tapGenerateButton(_ sender: Any) {
-        view.endEditing(true)
-        guard let text = textField.text else {
-            return
-        }
-            var amountOfView = Double(text)
+        
+        if (textField.text?.characters.count)! <= 2{
+        
+        if (isСonform(to: textField.text!)) == true {
             //Clear screen
             for subview in mainView.subviews as [UIView]   {
                 subview.removeFromSuperview()
             }
-            createNewView(count: amountOfView!)
+             view.endEditing(true)
+            
+           newView.createNewView(count: Double(textField.text!)!, mainView:mainView)
+
+//            let text = textField.text
+//
+//            if let doubleCount = Double(text!) {
+//                let count = delegate?.accessToText(count: doubleCount)
+//
+//                newView.createNewView(count: count!, mainView: mainView)
+//            }
+            
+        } else
+        {
+            let alertController = UIAlertController(title: "Warning", message:
+                "There must be only integer numbers!", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            let alertController = UIAlertController(title: "Warning", message:
+                "MAX Value is 99", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
+        saveApp()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        delegate?.accessToText(count: Double(textField.text!)!)
         return true
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -50,40 +89,55 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    func createNewView(count: Double){
-        var i = count
-        var stepHeight =  0.0
-        var stepWidth = 0.0
-        let indent = 10.0
-        
-        var width = Double(mainView.frame.size.width)/count
-        var height = Double(mainView.frame.size.height)/count
-        while i > 0 {
-            var newView = UIView(frame: CGRect(x: stepWidth, y: stepHeight, width: width, height: height))
-            
-            newView.backgroundColor = .random
-            self.mainView.addSubview(newView)
-            
-            stepHeight = stepHeight + indent
-            stepWidth = stepWidth + indent
-            
-            i = i - 1
-        }
+    public func isСonform(to value: String) -> Bool {
+        let regExptest = NSPredicate(format: "SELF MATCHES %@", "[0-9]*")
+        return regExptest.evaluate(with: value)
     }
     
-}
-
-//MARK: - Random Colour
-extension CGFloat {
-    static var random: CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    func saveApp(){
+        var saveView = newView.customView
+        var xxxView = UIView()
+        for subview in saveView.subviews{
+            xxxView = subview
+        }
+        for subview in (xxxView.subviews){
+          let color = subview.backgroundColor?.cgColor
+            let viewColor = color?.components
+            print(viewColor)
+        var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+            loadingData.append(saveView)
+            let encoder =  PropertyListEncoder()
+            SaveData.store(loadingData, to: .documents, as: "Load.json")
+            xxxView = subview
+//        do{
+//            let data =  try encoder.encode(loadingData)
+//            try data.write(to: dataFilePath!)
+//            print(data)
+//        } catch{
+//            print("Error encoding data \(error)")
+//        }
+      }
+                    print(loadingData.count)
     }
-}
+    
+    func loadApp(){
+//        if let data = try? Data(contentsOf: dataFilePath!){
+//            let decoder = PropertyListDecoder()
+//            do{
+//               loadingData = try decoder.decode([AppsViews].self, from: data)
+//            } catch {
+//           print("Error decoding data \(error)")
+//           }
+//            print(loadingData)
+////            var viewProperty = AppsViews.self
+////           newView.currentView.frame.width = viewProperty.width
+//         }
+        let messagesFromDisk = SaveData.retrieve("Load.json", from: .documents, as: [AppsViews].self)
+        loadingData = messagesFromDisk
+        print(loadingData.count)
 
-extension UIColor {
-    static var random: UIColor {
-        return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
+            
+        }
     }
-}
 
 

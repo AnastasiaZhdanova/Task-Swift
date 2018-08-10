@@ -13,26 +13,26 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Task2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainVC" id="BYZ-38-t0r" customClass="ViewController" customModule="Task2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="topView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tUr-Fn-aqT">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tUr-Fn-aqT">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vmy-m9-9eC">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vmy-m9-9eC">
                                         <rect key="frame" x="18" y="54" width="155" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
-                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztk-No-hyB">
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztk-No-hyB">
                                         <rect key="frame" x="291" y="54" width="64" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.96538428685667454" green="1" blue="0.98062409518591098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="HIb-WZ-Wg2"/>
+                                        </constraints>
                                         <color key="tintColor" red="0.49098451259999998" green="0.53187293960000004" blue="0.57739133880000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Generate">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -43,14 +43,34 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Vmy-m9-9eC" firstAttribute="top" secondItem="tUr-Fn-aqT" secondAttribute="top" constant="54" id="17D-Fn-bfZ"/>
+                                    <constraint firstItem="ztk-No-hyB" firstAttribute="leading" secondItem="Vmy-m9-9eC" secondAttribute="trailing" constant="118" id="2zW-s3-ARy"/>
+                                    <constraint firstItem="ztk-No-hyB" firstAttribute="top" secondItem="Vmy-m9-9eC" secondAttribute="top" id="BEQ-yk-SsW"/>
+                                    <constraint firstItem="Vmy-m9-9eC" firstAttribute="leading" secondItem="tUr-Fn-aqT" secondAttribute="leading" constant="18" id="GM5-6W-DCb"/>
+                                    <constraint firstItem="Vmy-m9-9eC" firstAttribute="leading" secondItem="tUr-Fn-aqT" secondAttribute="leading" constant="18" id="HRg-Kl-8jI"/>
+                                    <constraint firstItem="Vmy-m9-9eC" firstAttribute="leading" secondItem="tUr-Fn-aqT" secondAttribute="leading" constant="18" id="PrD-6b-YOO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Vmy-m9-9eC" secondAttribute="bottom" constant="16" id="mOP-PE-hRZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="ztk-No-hyB" secondAttribute="trailing" constant="20" id="sZM-C7-Vqc"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ih1-57-335" userLabel="mainView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ih1-57-335" userLabel="mainView">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="0.91021050347222221" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ih1-57-335" firstAttribute="top" secondItem="tUr-Fn-aqT" secondAttribute="bottom" id="2Gv-O2-7hT"/>
+                            <constraint firstItem="ih1-57-335" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6R9-li-ZbP"/>
+                            <constraint firstItem="tUr-Fn-aqT" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Ope-Od-fl3"/>
+                            <constraint firstItem="tUr-Fn-aqT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Pxh-VH-u7l"/>
+                            <constraint firstItem="tUr-Fn-aqT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="U2j-1S-Mra"/>
+                            <constraint firstItem="ih1-57-335" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="aod-cl-npN"/>
+                            <constraint firstItem="ih1-57-335" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ebj-o7-ukR"/>
+                            <constraint firstItem="ih1-57-335" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="100" id="hio-s1-hMl"/>
+                            <constraint firstItem="ih1-57-335" firstAttribute="top" secondItem="tUr-Fn-aqT" secondAttribute="bottom" id="zLx-25-yRR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
