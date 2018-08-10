@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               vc.saveApp()
     }
 
-
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        vc.loadApp()
+    }
+    
 }
 

@@ -31,15 +31,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     @IBOutlet weak private var textField: UITextField!
     @IBOutlet weak private var mainView: UIView!
 
-     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.plist")
- //   let dataPath = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.plist")
+     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.json")
+
     
     var delegate: ViewControllerDelegate?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-               loadApp()
     }
     
     @IBAction func tapGenerateButton(_ sender: Any) {
@@ -95,37 +94,46 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     func saveApp(){
-        
-     for subview in NewView.defView.subviews{
-        
-      let color = subview.backgroundColor?.cgColor
-        let viewColor = color?.components
-        print(viewColor)
-        
-        let saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
-        
-        let encoder =  PropertyListEncoder()
-        do{
-            let data =  try encoder.encode(loadingData)
-            try data.write(to: dataFilePath!)
-            print(data)
-        } catch{
-            print("Error encoding data \(error)")
+        var saveView = newView.customView
+        var xxxView = UIView()
+        for subview in saveView.subviews{
+            xxxView = subview
         }
+        for subview in (xxxView.subviews){
+          let color = subview.backgroundColor?.cgColor
+            let viewColor = color?.components
+            print(viewColor)
+        var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+            loadingData.append(saveView)
+            let encoder =  PropertyListEncoder()
+            SaveData.store(loadingData, to: .documents, as: "Load.json")
+            xxxView = subview
+//        do{
+//            let data =  try encoder.encode(loadingData)
+//            try data.write(to: dataFilePath!)
+//            print(data)
+//        } catch{
+//            print("Error encoding data \(error)")
+//        }
       }
+                    print(loadingData.count)
     }
     
     func loadApp(){
 //        if let data = try? Data(contentsOf: dataFilePath!){
 //            let decoder = PropertyListDecoder()
 //            do{
-//                loadingData = try decoder.decode([AppsViews].self, from: data)
+//               loadingData = try decoder.decode([AppsViews].self, from: data)
 //            } catch {
-//            print("Error decoding data \(error)")
-//            }
-//       var viewProperty = AppsViews.self
-//            newView.currentView.frame.width = viewProperty.width
-//          }
+//           print("Error decoding data \(error)")
+//           }
+//            print(loadingData)
+////            var viewProperty = AppsViews.self
+////           newView.currentView.frame.width = viewProperty.width
+//         }
+        let messagesFromDisk = SaveData.retrieve("Load.json", from: .documents, as: [AppsViews].self)
+        loadingData = messagesFromDisk
+        print(loadingData.count)
 
             
         }
