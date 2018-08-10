@@ -17,7 +17,8 @@ protocol ViewControllerDelegate{
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var newView = NewView()
-    
+    var firstView =  NewView.defView
+    var sssView = UIView()
     var loadingData = [AppsViews]()
     
     struct AppsViews: Codable {
@@ -40,11 +41,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        sssView  = firstView
     }
+
     
     @IBAction func tapGenerateButton(_ sender: Any) {
         
-        if (textField.text?.characters.count)! <= 2{
+        if (textField.text?.characters.count)! <= 3 && (textField.text?.characters.count)! > 0{
         
         if (isСonform(to: textField.text!)) == true {
             //Clear screen
@@ -72,11 +75,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
             }
         } else {
             let alertController = UIAlertController(title: "Warning", message:
-                "MAX Value is 99", preferredStyle: UIAlertControllerStyle.alert)
+                "You must enter value. MAX is 999", preferredStyle: UIAlertControllerStyle.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
-        saveApp()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -95,20 +97,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     func saveApp(){
-        var saveView = newView.customView
-        var xxxView = UIView()
-        for subview in saveView.subviews{
-            xxxView = subview
-        }
-        for subview in (xxxView.subviews){
-          let color = subview.backgroundColor?.cgColor
-            let viewColor = color?.components
-            print(viewColor)
-        var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
-            loadingData.append(saveView)
-            let encoder =  PropertyListEncoder()
-            SaveData.store(loadingData, to: .documents, as: "Load.json")
-            xxxView = subview
+        if sssView.subviews.count > 0 {
+            saveViews()
+        } else {
 //        do{
 //            let data =  try encoder.encode(loadingData)
 //            try data.write(to: dataFilePath!)
@@ -116,8 +107,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
 //        } catch{
 //            print("Error encoding data \(error)")
 //        }
-      }
-                    print(loadingData.count)
+            let encoder =  PropertyListEncoder()
+            SaveData.store(loadingData, to: .documents, as: "Load.json")
+            print(loadingData.count)
+        }
     }
     
     func loadApp(){
@@ -135,9 +128,38 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let messagesFromDisk = SaveData.retrieve("Load.json", from: .documents, as: [AppsViews].self)
         loadingData = messagesFromDisk
         print(loadingData.count)
-
-            
         }
+    
+    func saveViews(){
+        SaveData.remove("Load.json", from: .documents)
+        var xxxView = [UIView]()
+        var i = 0
+        for subview in sssView.subviews{
+            let color = subview.backgroundColor?.cgColor
+            let viewColor = color?.components
+            print(viewColor)
+            var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+            loadingData.append(saveView)
+            if subview.subviews.count > 0 {
+                xxxView.append(subview)
+            }
+        }
+        print("xxxView \(xxxView.count)")
+        while i < xxxView.count{
+            for subview in (xxxView[i].subviews){
+                let color = subview.backgroundColor?.cgColor
+                let viewColor = color?.components
+                print(viewColor)
+                var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+                loadingData.append(saveView)
+                xxxView[i] = subview
+                i = i + 1
+                sssView = subview
+            }
+            saveApp()
+        }
+    }
+    
     }
 
 

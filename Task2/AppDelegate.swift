@@ -14,15 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var vc = ViewController()
-    
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-              vc.saveApp()
-    }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         vc.loadApp()
     }
-    
-}
+    func applicationWillTerminate(application: UIApplication) {
+        vc.saveApp()
+    }
+    func applicationWillResignActive(_ application: UIApplication) {
+        vc.saveApp()
+    }
 
+}
