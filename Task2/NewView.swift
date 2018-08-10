@@ -147,10 +147,9 @@ class NewView: UIView, UIGestureRecognizerDelegate, ViewControllerDelegate{
             //self.transform = CGAffineTransform(rotationAngle: 180)
         
             for subview in self.subviews{
-                subview.removeFromSuperview()
+           //     subview.removeFromSuperview()
                 NewView.defView.addSubview(subview)
             }
-        NewView.defView.addSubview(self)
         
         if rotateDegree == false  {
             self.superview?.bringSubview(toFront: self)

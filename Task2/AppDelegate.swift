@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var vc = ViewController()
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        vc.loadApp()
+    //    vc.loadApp()
     }
     func applicationWillTerminate(application: UIApplication) {
         vc.saveApp()

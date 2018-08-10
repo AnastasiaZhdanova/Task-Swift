@@ -17,8 +17,7 @@ protocol ViewControllerDelegate{
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var newView = NewView()
-    var firstView =  NewView.defView
-    var sssView = UIView()
+    
     var loadingData = [AppsViews]()
     
     struct AppsViews: Codable {
@@ -33,7 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     @IBOutlet weak private var textField: UITextField!
     @IBOutlet weak private var mainView: UIView!
 
-     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.json")
+    var dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Load.json")
 
     
     var delegate: ViewControllerDelegate?
@@ -41,7 +40,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sssView  = firstView
+        if SaveData.fileExists("Load.json", in: .documents) == true
+        {
+            loadApp()
+        }
     }
 
     
@@ -97,9 +99,32 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     func saveApp(){
-        if sssView.subviews.count > 0 {
-            saveViews()
-        } else {
+     SaveData.clear( .documents)
+        var saveView = NewView.defView
+        var xxxView = [UIView]()
+        var i = 0
+        for subview in NewView.defView.subviews{
+            let color = subview.backgroundColor?.cgColor
+            let viewColor = color?.components
+            print(viewColor)
+            var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+            loadingData.append(saveView)
+            if subview.subviews.count > 0 {
+                xxxView.append(subview)
+            }
+        }
+        print("xxxView \(xxxView.count)")
+        while i < xxxView.count{
+            for subview in (xxxView[i].subviews){
+              let color = subview.backgroundColor?.cgColor
+                let viewColor = color?.components
+                print(viewColor)
+                var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
+                loadingData.append(saveView)
+                xxxView[i] = subview
+                i = i + 1
+                }
+        }
 //        do{
 //            let data =  try encoder.encode(loadingData)
 //            try data.write(to: dataFilePath!)
@@ -109,8 +134,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
 //        }
             let encoder =  PropertyListEncoder()
             SaveData.store(loadingData, to: .documents, as: "Load.json")
-            print(loadingData.count)
-        }
+            print("Saving \(loadingData.count)")
     }
     
     func loadApp(){
@@ -127,39 +151,24 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
 //         }
         let messagesFromDisk = SaveData.retrieve("Load.json", from: .documents, as: [AppsViews].self)
         loadingData = messagesFromDisk
-        print(loadingData.count)
+        print("Loading \(loadingData.count)")
+        for i in 0...loadingData.count-1 {
+            var createdView = NewView()
+            createdView.frame.size.width = loadingData[i].width
+            createdView.frame.size.height = loadingData[i].height
+            createdView.center.x = loadingData[i].x
+            createdView.center.y = loadingData[i].y
+            let swiftColor = UIColor(red: loadingData[i].color[0], green: loadingData[i].color[1], blue: loadingData[i].color[2], alpha: loadingData[i].color[3])
+            createdView.layer.cornerRadius = 6
+            createdView.layer.shadowOffset = CGSize(width: 2, height: 2)
+            createdView.layer.shadowRadius = 3
+            createdView.layer.shadowOpacity = 0.25
+            createdView.isUserInteractionEnabled = true
+            createdView.backgroundColor = swiftColor
+            mainView.addSubview(createdView)
         }
-    
-    func saveViews(){
-        SaveData.remove("Load.json", from: .documents)
-        var xxxView = [UIView]()
-        var i = 0
-        for subview in sssView.subviews{
-            let color = subview.backgroundColor?.cgColor
-            let viewColor = color?.components
-            print(viewColor)
-            var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
-            loadingData.append(saveView)
-            if subview.subviews.count > 0 {
-                xxxView.append(subview)
-            }
+        
         }
-        print("xxxView \(xxxView.count)")
-        while i < xxxView.count{
-            for subview in (xxxView[i].subviews){
-                let color = subview.backgroundColor?.cgColor
-                let viewColor = color?.components
-                print(viewColor)
-                var saveView = AppsViews(width: subview.frame.width, height: subview.frame.height, x: subview.center.x, y: subview.center.y, color: viewColor! )
-                loadingData.append(saveView)
-                xxxView[i] = subview
-                i = i + 1
-                sssView = subview
-            }
-            saveApp()
-        }
-    }
-    
     }
 
 
